@@ -703,23 +703,23 @@
             </div>
             <!-- Заменете съществуващата контактна форма с тази -->
             <div class="contact-form">
-                <form action="https://formspree.io/f/mqazgbla" method="POST" id="contact-form">
+                <form action="https://formspree.io/f/xpwrvzbj" method="POST" id="contact-form">
                     <div class="form-group">
                         <label data-translate="form-name">Name</label>
                         <input type="text" name="name" required>
                     </div>
                     <div class="form-group">
                         <label data-translate="form-email">Email</label>
-                        <input type="email" name="_replyto" required>
+                        <input type="email" name="email" required>
                     </div>
                     <div class="form-group">
                         <label data-translate="form-message">Message</label>
                         <textarea rows="5" name="message" required></textarea>
                     </div>
                     
-                    <!-- Скрити полета за спам защита -->
-                    <input type="hidden" name="_subject" value="New contact form submission">
-                    <input type="hidden" name="_next" value="thank-you.html">
+                    <!-- Скрити полета за Formspree -->
+                    <input type="hidden" name="_subject" value="New Portfolio Contact">
+                    <input type="hidden" name="_next" value="https://stellababy2004.github.io/stella-cybersecurity-portfolio/thank-you.html">
                     <input type="text" name="_gotcha" style="display:none">
                     
                     <button type="submit" class="submit-btn" data-translate="form-submit">Send Message</button>
