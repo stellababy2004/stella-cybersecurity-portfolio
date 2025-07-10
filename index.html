@@ -708,22 +708,44 @@
                 <a href="phishing-response-guide.html" class="project-link" data-translate="project-link">View Project</a>
             </div>
 
-            <div class="project-card">
-                <div class="project-icon">
-                    <i class="fas fa-chart-line" style="color: #2ecc71;"></i>
-                </div>
-                <h3 data-translate="project5-title">SIEM Analytics Dashboard</h3>
-                <p data-translate="project5-desc">Splunk-based security information and event management</p>
-                <a href="splunk-incident-response.html" class="project-link" data-translate="project-link">View Project</a>
-            </div>
-
+            <!-- Заменете project5 (около ред 720) с новия Alert Correlation System -->
             <div class="project-card">
                 <div class="project-icon">
                     <i class="fas fa-exclamation-triangle" style="color: #e74c3c;"></i>
                 </div>
-                <h3 data-translate="project6-title">Live Threats Monitor</h3>
-                <p data-translate="project6-desc">Real-time cybersecurity threat intelligence platform</p>
+                <h3 data-translate="project5-title">Alert Correlation & Triage System</h3>
+                <p data-translate="project5-desc">Mini-SIEM platform that receives JSON alerts, evaluates severity, prioritizes threats and suggests recommended response actions</p>
+                <a href="alert-correlation-system.html" class="project-link" data-translate="project-link">View Project</a>
+            </div>
+
+            <!-- Преместете SIEM Analytics Dashboard като project6 -->
+            <div class="project-card">
+                <div class="project-icon">
+                    <i class="fas fa-chart-line" style="color: #2ecc71;"></i>
+                </div>
+                <h3 data-translate="project6-title">SIEM Analytics Dashboard</h3>
+                <p data-translate="project6-desc">Splunk-based security information and event management</p>
+                <a href="splunk-incident-response.html" class="project-link" data-translate="project-link">View Project</a>
+            </div>
+
+            <!-- Преместете Live Threats Monitor като project7 -->
+            <div class="project-card">
+                <div class="project-icon">
+                    <i class="fas fa-satellite-dish" style="color: #9b59b6;"></i>
+                </div>
+                <h3 data-translate="project7-title">Live Threats Monitor</h3>
+                <p data-translate="project7-desc">Real-time cybersecurity threat intelligence platform</p>
                 <a href="live-threats.html" class="project-link" data-translate="project-link">View Project</a>
+            </div>
+
+            <!-- Добавете като 8-ми проект след Live Threats Monitor -->
+            <div class="project-card">
+                <div class="project-icon">
+                    <i class="fas fa-search-location" style="color: #8e44ad;"></i>
+                </div>
+                <h3 data-translate="project8-title">OSINT Toolkit</h3>
+                <p data-translate="project8-desc">Comprehensive Open Source Intelligence gathering platform with IP, domain, email and username investigation capabilities</p>
+                <a href="osint-toolkit.html" class="project-link" data-translate="project-link">View Project</a>
             </div>
         </div>
     </section>
@@ -848,10 +870,12 @@
                 'project3-desc': 'Comprehensive phishing detection and analysis platform',
                 'project4-title': 'Incident Response Guide',
                 'project4-desc': 'Step-by-step cybersecurity incident response procedures',
-                'project5-title': 'SIEM Analytics Dashboard',
-                'project5-desc': 'Splunk-based security information and event management',
-                'project6-title': 'Live Threats Monitor',
-                'project6-desc': 'Real-time cybersecurity threat intelligence platform',
+                'project5-title': 'Alert Correlation & Triage System',
+                'project5-desc': 'Mini-SIEM platform that receives JSON alerts, evaluates severity, prioritizes threats and suggests recommended response actions',
+                'project6-title': 'SIEM Analytics Dashboard',
+                'project6-desc': 'Splunk-based security information and event management',
+                'project7-title': 'Live Threats Monitor',
+                'project7-desc': 'Real-time cybersecurity threat intelligence platform',
                 'project-link': 'View Project',
                 'skills-title': 'Core Skills',
                 'skill1-title': 'Threat Hunting',
@@ -892,18 +916,20 @@
                 'project3-desc': 'Plateforme complète de détection и d\'analyse de phishing',
                 'project4-title': 'Guide de Réponse aux Incidents',
                 'project4-desc': 'Procédures étape par étape de réponse aux incidents de cybersécurité',
-                'project5-title': 'Tableau de Bord Analytique SIEM',
-                'project5-desc': 'Gestion des informations et événements de sécurité basée sur Splunk',
-                'project6-title': 'Moniteur de Menaces en Direct',
-                'project6-desc': 'Plateforme de renseignement sur les menaces de cybersécurité en temps réel',
+                'project5-title': 'Système de Corrélation et Triage d\'Alertes',
+                'project5-desc': 'Mini-plateforme SIEM qui reçoit des alertes JSON, évalue la gravité, priorise les menaces et suggère des actions de réponse recommandées',
+                'project6-title': 'Tableau de Bord Analytique SIEM',
+                'project6-desc': 'Gestion des informations и événements de sécurité basée sur Splunk',
+                'project7-title': 'Moniteur de Menaces en Direct',
+                'project7-desc': 'Plateforme de renseignement sur les menaces de cybersécurité en temps réel',
                 'project-link': 'Voir le Projet',
                 'skills-title': 'Compétences Clés',
                 'skill1-title': 'Chasse aux Menaces',
-                'skill1-desc': 'Détection proactive des menaces utilisant le framework MITRE ATT&CK',
+                'skill1-desc': 'Детекция на заплахи с помощта на MITRE ATT&CK',
                 'skill2-title': 'Réponse aux Incidents',
-                'skill2-desc': 'Confinement rapide et récupération des incidents de sécurité',
+                'skill2-desc': 'Confinement rapide и възстановяване на инциденти',
                 'skill3-title': 'Analyse SIEM',
-                'skill3-desc': 'Analyse et corrélation avancées de logs utilisant Splunk',
+                'skill3-desc': 'Анализ и корелация на логове с помощта на Splunk',
                 'skill4-title': 'Analyse de Malware',
                 'skill4-desc': 'Статичен и динамичен анализ на злонамерен софтуер',
                 'contact-title': 'Contactez-moi',
@@ -936,10 +962,12 @@
                 'project3-desc': 'Цялостна платформа за откриване и анализ на фишинг',
                 'project4-title': 'Ръководство за Реагиране на Инциденти',
                 'project4-desc': 'Стъпка по стъпка процедури за реагиране на киберсигурностни инциденти',
-                'project5-title': 'SIEM Аналитично Табло',
-                'project5-desc': 'Управление на информация и събития за сигурност базирано на Splunk',
-                'project6-title': 'Монитор на Заплахи на Живо',
-                'project6-desc': 'Платформа за разузнаване на киберзаплахи в реално време',
+                'project5-title': 'Система за Корелация и Триаж на Аларми',
+                'project5-desc': 'Мини-SIEM платформа която получава JSON аларми, оценява тежест, приоритизира заплахи и предлага препоръчителни действия за отговор',
+                'project6-title': 'SIEM Аналитично Табло',
+                'project6-desc': 'Управление на информация и събития за сигурност базирано на Splunk',
+                'project7-title': 'Монитор на Заплахи на Живо',
+                'project7-desc': 'Платформа за разузнаване на киберзаплахи в реално време',
                 'project-link': 'Виж Проекта',
                 'skills-title': 'Основни Умения',
                 'skill1-title': 'Лов на Заплахи',

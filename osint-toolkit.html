@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSINT Toolkit | Stella Barbarella</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="common.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0d1117;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(13, 17, 23, 0.95);
+            border: 2px solid #8e44ad;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(142, 68, 173, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .title {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            color: #8e44ad;
+            text-shadow: 0 0 20px rgba(142, 68, 173, 0.5);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #ffffff;
+            opacity: 0.8;
+        }
+
+        .osint-dashboard {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(142, 68, 173, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .search-form {
+            background: rgba(142, 68, 173, 0.1);
+            border: 2px solid rgba(142, 68, 173, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 200px 120px;
+            gap: 15px;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            color: #8e44ad;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-group input, .form-group select {
+            padding: 12px;
+            border: 2px solid #8e44ad;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #ffffff;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #9b59b6;
+            box-shadow: 0 0 10px rgba(142, 68, 173, 0.3);
+        }
+
+        .search-btn {
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #8e44ad, #9b59b6);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(142, 68, 173, 0.4);
+        }
+
+        .results-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .result-card {
+            background: rgba(142, 68, 173, 0.1);
+            border: 2px solid rgba(142, 68, 173, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(142, 68, 173, 0.3);
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .result-icon {
+            font-size: 2rem;
+            color: #8e44ad;
+            margin-right: 15px;
+        }
+
+        .result-title {
+            font-size: 1.3rem;
+            color: #8e44ad;
+            font-weight: 600;
+        }
+
+        .result-data {
+            margin-bottom: 15px;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(142, 68, 173, 0.2);
+        }
+
+        .data-label {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .data-value {
+            color: #9b59b6;
+            font-family: 'Courier New', monospace;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-safe {
+            background: #27ae60;
+            color: #ffffff;
+        }
+
+        .status-suspicious {
+            background: #f39c12;
+            color: #ffffff;
+        }
+
+        .status-malicious {
+            background: #e74c3c;
+            color: #ffffff;
+        }
+
+        .osint-sources {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .source-card {
+            background: rgba(142, 68, 173, 0.1);
+            border: 2px solid rgba(142, 68, 173, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .source-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(142, 68, 173, 0.3);
+        }
+
+        .source-icon {
+            font-size: 3rem;
+            color: #8e44ad;
+            margin-bottom: 15px;
+        }
+
+        .source-name {
+            font-size: 1.2rem;
+            color: #8e44ad;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .source-desc {
+            color: #ffffff;
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .demo-data {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .demo-item {
+            background: rgba(142, 68, 173, 0.1);
+            border: 1px solid rgba(142, 68, 173, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .demo-item:hover {
+            background: rgba(142, 68, 173, 0.2);
+            transform: translateX(5px);
+        }
+
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #8e44ad, #9b59b6);
+            color: #ffffff;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(142, 68, 173, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .results-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">
+                <i class="fas fa-search-location"></i>
+                OSINT Toolkit
+            </h1>
+            <p class="subtitle">Open Source Intelligence Gathering Platform</p>
+        </div>
+
+        <div class="search-form">
+            <h2 style="color: #8e44ad; text-align: center; margin-bottom: 25px;">
+                <i class="fas fa-crosshairs"></i> Intelligence Lookup
+            </h2>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="searchInput">Target (IP, Domain, Email, Username)</label>
+                    <input type="text" id="searchInput" placeholder="Enter IP address, domain, email or username..." value="8.8.8.8">
+                </div>
+                <div class="form-group">
+                    <label for="searchType">Investigation Type</label>
+                    <select id="searchType">
+                        <option value="ip">IP Address</option>
+                        <option value="domain">Domain</option>
+                        <option value="email">Email</option>
+                        <option value="username">Username</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button class="search-btn" onclick="performOSINT()">
+                        <i class="fas fa-search"></i> Investigate
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-data">
+            <h3 style="color: #8e44ad; margin-bottom: 15px;">Demo Targets (Click to investigate)</h3>
+            <div class="demo-item" onclick="loadDemo('8.8.8.8', 'ip')">
+                <strong>IP:</strong> 8.8.8.8 (Google Public DNS)
+            </div>
+            <div class="demo-item" onclick="loadDemo('example.com', 'domain')">
+                <strong>Domain:</strong> example.com
+            </div>
+            <div class="demo-item" onclick="loadDemo('test@example.com', 'email')">
+                <strong>Email:</strong> test@example.com
+            </div>
+            <div class="demo-item" onclick="loadDemo('johnsmith', 'username')">
+                <strong>Username:</strong> johnsmith
+            </div>
+        </div>
+
+        <div id="resultsContainer" class="results-container" style="display: none;">
+            <!-- Results will be populated here -->
+        </div>
+
+        <div class="osint-sources">
+            <h2 style="color: #8e44ad; text-align: center; grid-column: 1 / -1; margin-bottom: 30px;">
+                <i class="fas fa-database"></i> Integrated OSINT Sources
+            </h2>
+            
+            <div class="source-card">
+                <div class="source-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="source-name">AbuseIPDB</div>
+                <div class="source-desc">IP reputation and abuse reporting database</div>
+            </div>
+
+            <div class="source-card">
+                <div class="source-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="source-name">Shodan</div>
+                <div class="source-desc">Internet-connected device search engine</div>
+            </div>
+
+            <div class="source-card">
+                <div class="source-icon">
+                    <i class="fas fa-user-secret"></i>
+                </div>
+                <div class="source-name">HaveIBeenPwned</div>
+                <div class="source-desc">Data breach notification service</div>
+            </div>
+
+            <div class="source-card">
+                <div class="source-icon">
+                    <i class="fas fa-virus"></i>
+                </div>
+                <div class="source-name">VirusTotal</div>
+                <div class="source-desc">Multi-engine malware scanner</div>
+            </div>
+
+            <div class="source-card">
+                <div class="source-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="source-name">WHOIS</div>
+                <div class="source-desc">Domain registration information</div>
+            </div>
+
+            <div class="source-card">
+                <div class="source-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="source-name">Social Networks</div>
+                <div class="source-desc">Username enumeration across platforms</div>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Portfolio
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function loadDemo(target, type) {
+            document.getElementById('searchInput').value = target;
+            document.getElementById('searchType').value = type;
+            performOSINT();
+        }
+
+        function performOSINT() {
+            const target = document.getElementById('searchInput').value;
+            const type = document.getElementById('searchType').value;
+            const resultsContainer = document.getElementById('resultsContainer');
+            
+            if (!target.trim()) {
+                alert('Please enter a target to investigate');
+                return;
+            }
+
+            // Show loading state
+            resultsContainer.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: #8e44ad;"></i>
+                    <p style="margin-top: 20px; color: #ffffff;">Gathering intelligence...</p>
+                </div>
+            `;
+            resultsContainer.style.display = 'grid';
+
+            // Simulate API calls with demo data
+            setTimeout(() => {
+                generateDemoResults(target, type);
+            }, 2000);
+        }
+
+        function generateDemoResults(target, type) {
+            const resultsContainer = document.getElementById('resultsContainer');
+            let results = '';
+
+            if (type === 'ip') {
+                results = `
+                    <div class="result-card">
+                        <div class="result-header">
+                            <i class="result-icon fas fa-shield-alt"></i>
+                            <div class="result-title">AbuseIPDB Report</div>
+                        </div>
+                        <div class="result-data">
+                            <div class="data-row">
+                                <span class="data-label">IP Address:</span>
+                                <span class="data-value">${target}</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Country:</span>
+                                <span class="data-value">United States</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">ISP:</span>
+                                <span class="data-value">Google LLC</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Confidence:</span>
+                                <span class="status-badge status-safe">Safe (0%)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-header">
+                            <i class="result-icon fas fa-search"></i>
+                            <div class="result-title">Shodan Intelligence</div>
+                        </div>
+                        <div class="result-data">
+                            <div class="data-row">
+                                <span class="data-label">Open Ports:</span>
+                                <span class="data-value">53, 443</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Services:</span>
+                                <span class="data-value">DNS, HTTPS</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Organization:</span>
+                                <span class="data-value">Google Public DNS</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Last Seen:</span>
+                                <span class="data-value">2025-01-10</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-header">
+                            <i class="result-icon fas fa-globe"></i>
+                            <div class="result-title">Geolocation Data</div>
+                        </div>
+                        <div class="result-data">
+                            <div class="data-row">
+                                <span class="data-label">City:</span>
+                                <span class="data-value">Mountain View</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Region:</span>
+                                <span class="data-value">California</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Coordinates:</span>
+                                <span class="data-value">37.4056, -122.0775</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Timezone:</span>
+                                <span class="data-value">America/Los_Angeles</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'email') {
+                results = `
+                    <div class="result-card">
+                        <div class="result-header">
+                            <i class="result-icon fas fa-user-secret"></i>
+                            <div class="result-title">HaveIBeenPwned</div>
+                        </div>
+                        <div class="result-data">
+                            <div class="data-row">
+                                <span class="data-label">Email:</span>
+                                <span class="data-value">${target}</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Breaches Found:</span>
+                                <span class="status-badge status-suspicious">2 Breaches</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Latest Breach:</span>
+                                <span class="data-value">2023-08-15</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Pastes:</span>
+                                <span class="data-value">0 Found</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-header">
+                            <i class="result-icon fas fa-envelope"></i>
+                            <div class="result-title">Email Validation</div>
+                        </div>
+                        <div class="result-data">
+                            <div class="data-row">
+                                <span class="data-label">Domain:</span>
+                                <span class="data-value">example.com</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">MX Records:</span>
+                                <span class="status-badge status-safe">Valid</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Deliverable:</span>
+                                <span class="status-badge status-safe">Yes</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Risk Score:</span>
+                                <span class="data-value">Low (15/100)</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'domain') {
+                results = `
+                    <div class="result-card">
+                        <div class="result-header">
+                            <i class="result-icon fas fa-globe"></i>
+                            <div class="result-title">WHOIS Information</div>
+                        </div>
+                        <div class="result-data">
+                            <div class="data-row">
+                                <span class="data-label">Domain:</span>
+                                <span class="data-value">${target}</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Registrar:</span>
+                                <span class="data-value">IANA</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Created:</span>
+                                <span class="data-value">1995-08-14</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Status:</span>
+                                <span class="status-badge status-safe">Active</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-header">
+                            <i class="result-icon fas fa-virus"></i>
+                            <div class="result-title">VirusTotal Scan</div>
+                        </div>
+                        <div class="result-data">
+                            <div class="data-row">
+                                <span class="data-label">Engines:</span>
+                                <span class="data-value">89/89</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Malicious:</span>
+                                <span class="status-badge status-safe">0 Detections</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Last Scan:</span>
+                                <span class="data-value">2025-01-10</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Reputation:</span>
+                                <span class="status-badge status-safe">Clean</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'username') {
+                results = `
+                    <div class="result-card">
+                        <div class="result-header">
+                            <i class="result-icon fas fa-users"></i>
+                            <div class="result-title">Social Media Presence</div>
+                        </div>
+                        <div class="result-data">
+                            <div class="data-row">
+                                <span class="data-label">Username:</span>
+                                <span class="data-value">${target}</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Twitter:</span>
+                                <span class="status-badge status-safe">Found</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">GitHub:</span>
+                                <span class="status-badge status-safe">Found</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">LinkedIn:</span>
+                                <span class="status-badge status-suspicious">Not Found</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-header">
+                            <i class="result-icon fas fa-fingerprint"></i>
+                            <div class="result-title">Digital Footprint</div>
+                        </div>
+                        <div class="result-data">
+                            <div class="data-row">
+                                <span class="data-label">Forums:</span>
+                                <span class="data-value">3 Profiles</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Code Repos:</span>
+                                <span class="data-value">12 Repositories</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Activity:</span>
+                                <span class="status-badge status-safe">Active</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Risk Level:</span>
+                                <span class="status-badge status-safe">Low</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            resultsContainer.innerHTML = results;
+        }
+    </script>
+</body>
+</html>
