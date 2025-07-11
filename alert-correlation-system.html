@@ -6,9 +6,14 @@
     <title>Alert Correlation & Triage System | Stella Barbarella</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="common.css">
     
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: #0d1117;
@@ -16,16 +21,87 @@
             margin: 0;
             padding: 20px;
             line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Частици */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00ffee;
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+            box-shadow: 0 0 6px #00ffee;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .particle:nth-child(2n) {
+            width: 3px;
+            height: 3px;
+            animation-duration: 12s;
+        }
+
+        .particle:nth-child(3n) {
+            width: 1px;
+            height: 1px;
+            animation-duration: 18s;
+        }
+
+        .particle:nth-child(4n) {
+            width: 4px;
+            height: 4px;
+            animation-duration: 20s;
+            box-shadow: 0 0 10px #00ffee;
+        }
+
+        .particle:nth-child(5n) {
+            animation-duration: 8s;
+        }
+
+        .particle:nth-child(6n) {
+            animation-duration: 25s;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: rgba(13, 17, 23, 0.95);
-            border: 2px solid #e74c3c;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 255, 238, 0.3);
             border-radius: 20px;
             padding: 40px;
-            box-shadow: 0 0 30px rgba(231, 76, 60, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 255, 238, 0.1);
+            position: relative;
+            z-index: 1;
         }
 
         .header {
@@ -36,8 +112,8 @@
         .title {
             font-family: 'Orbitron', monospace;
             font-size: 3rem;
-            color: #e74c3c;
-            text-shadow: 0 0 20px rgba(231, 76, 60, 0.5);
+            color: #00ffee;
+            text-shadow: 0 0 20px rgba(0, 255, 238, 0.5);
             margin-bottom: 20px;
             display: flex;
             align-items: center;
@@ -48,15 +124,27 @@
         .subtitle {
             font-size: 1.3rem;
             color: #ffffff;
-            opacity: 0.8;
+            opacity: 0.9;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .alert-dashboard {
-            background: rgba(0, 0, 0, 0.4);
-            border: 2px solid rgba(231, 76, 60, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 255, 238, 0.3);
             border-radius: 15px;
             padding: 30px;
             margin: 30px 0;
+            box-shadow: 0 8px 32px rgba(0, 255, 238, 0.1);
+        }
+
+        .dashboard-title {
+            color: #e74c3c;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .stats-grid {
@@ -67,18 +155,27 @@
         }
 
         .stat-card {
-            background: rgba(231, 76, 60, 0.1);
-            border: 1px solid #e74c3c;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 238, 0.3);
             border-radius: 10px;
             padding: 20px;
             text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 255, 238, 0.2);
+            border-color: #00ffee;
         }
 
         .stat-number {
             font-size: 2rem;
             font-weight: bold;
-            color: #e74c3c;
+            color: #00ffee;
             display: block;
+            text-shadow: 0 0 10px rgba(0, 255, 238, 0.5);
         }
 
         .stat-label {
@@ -88,9 +185,17 @@
         }
 
         .alert-list {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 238, 0.2);
             border-radius: 10px;
             padding: 20px;
+        }
+
+        .alert-list h3 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
         }
 
         .alert-item {
@@ -102,26 +207,33 @@
             border-radius: 8px;
             border-left: 4px solid;
             transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
         }
 
         .alert-item:hover {
             transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 255, 238, 0.2);
         }
 
         .alert-high {
-            background: rgba(231, 76, 60, 0.2);
             border-left-color: #e74c3c;
+            background: rgba(231, 76, 60, 0.1);
         }
 
         .alert-medium {
-            background: rgba(241, 196, 15, 0.2);
-            border-left-color: #f1c40f;
+            border-left-color: #f39c12;
+            background: rgba(243, 156, 18, 0.1);
         }
 
         .alert-low {
-            background: rgba(46, 204, 113, 0.2);
-            border-left-color: #2ecc71;
+            border-left-color: #27ae60;
+            background: rgba(39, 174, 96, 0.1);
+        }
+
+        .alert-critical {
+            border-left-color: #c0392b;
+            background: rgba(192, 57, 43, 0.1);
         }
 
         .alert-info {
@@ -140,12 +252,19 @@
             font-size: 0.9rem;
         }
 
+        .alert-metadata {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+
         .alert-severity {
             padding: 5px 10px;
             border-radius: 15px;
             font-size: 0.8rem;
             font-weight: bold;
             text-transform: uppercase;
+            margin-right: 10px;
         }
 
         .severity-high {
@@ -163,6 +282,11 @@
             color: #ffffff;
         }
 
+        .severity-critical {
+            background: #c0392b;
+            color: #ffffff;
+        }
+
         .triage-actions {
             display: flex;
             gap: 10px;
@@ -176,11 +300,15 @@
             cursor: pointer;
             font-size: 0.8rem;
             transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .btn-investigate {
-            background: #3498db;
-            color: #ffffff;
+            background: #00ffee;
+            color: #000000;
         }
 
         .btn-escalate {
@@ -195,7 +323,7 @@
 
         .action-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 255, 238, 0.3);
         }
 
         .features-grid {
@@ -206,22 +334,31 @@
         }
 
         .feature-card {
-            background: rgba(231, 76, 60, 0.1);
-            border: 2px solid rgba(231, 76, 60, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 255, 238, 0.3);
             border-radius: 15px;
             padding: 30px;
             text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 255, 238, 0.2);
+            border-color: #00ffee;
         }
 
         .feature-icon {
             font-size: 3rem;
-            color: #e74c3c;
+            color: #00ffee;
             margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(0, 255, 238, 0.5);
         }
 
         .feature-title {
             font-size: 1.5rem;
-            color: #e74c3c;
+            color: #ffffff;
             margin-bottom: 15px;
             font-weight: 600;
         }
@@ -232,11 +369,19 @@
         }
 
         .tech-stack {
-            background: rgba(0, 0, 0, 0.4);
-            border: 2px solid rgba(231, 76, 60, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 255, 238, 0.3);
             border-radius: 15px;
             padding: 30px;
             margin: 30px 0;
+            box-shadow: 0 8px 32px rgba(0, 255, 238, 0.1);
+        }
+
+        .tech-stack h3 {
+            color: #00ffee;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
         }
 
         .tech-grid {
@@ -247,34 +392,107 @@
         }
 
         .tech-item {
-            background: rgba(231, 76, 60, 0.1);
-            border: 1px solid #e74c3c;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 238, 0.3);
             border-radius: 10px;
             padding: 15px;
             text-align: center;
             transition: all 0.3s ease;
+            color: #ffffff;
         }
 
         .tech-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(231, 76, 60, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 255, 238, 0.2);
+            border-color: #00ffee;
         }
 
         .back-button {
             display: inline-block;
-            background: linear-gradient(45deg, #e74c3c, #c0392b);
-            color: #ffffff;
+            background: linear-gradient(45deg, #00ffee, #667eea);
+            color: #000000;
             padding: 15px 30px;
             border-radius: 30px;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
             margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 255, 238, 0.3);
         }
 
         .back-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(231, 76, 60, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 255, 238, 0.4);
+        }
+
+        /* Модален прозорец */
+        .alert-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(0, 255, 238, 0.5);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0, 255, 238, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 255, 238, 0.3);
+            padding-bottom: 15px;
+        }
+
+        .modal-header h3 {
+            color: #00ffee;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(0, 255, 238, 0.5);
+        }
+
+        .modal-header button {
+            background: none;
+            border: none;
+            color: #00ffee;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .modal-header button:hover {
+            transform: scale(1.1);
+        }
+
+        .modal-body p {
+            margin: 10px 0;
+            color: #ffffff;
+        }
+
+        .modal-body strong {
+            color: #00ffee;
+            font-weight: 600;
         }
 
         @media (max-width: 768px) {
@@ -303,6 +521,9 @@
     </style>
 </head>
 <body>
+    <!-- Частици в началото на body -->
+    <div class="particles"></div>
+
     <div class="container">
         <div class="header">
             <h1 class="title">
@@ -313,213 +534,250 @@
         </div>
 
         <div class="alert-dashboard">
-            <h2 style="color: #e74c3c; text-align: center; margin-bottom: 30px;">
-                <i class="fas fa-tachometer-alt"></i> Live Alert Dashboard
-            </h2>
-            
+            <div class="dashboard-title">
+                <i class="fas fa-chart-line"></i> Live Alert Dashboard
+            </div>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <span class="stat-number">247</span>
+                    <span class="stat-number">1247</span>
                     <span class="stat-label">Active Alerts</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number">89</span>
+                    <span class="stat-number">189</span>
                     <span class="stat-label">High Priority</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number">156</span>
+                    <span class="stat-number">2156</span>
                     <span class="stat-label">Correlated Events</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number">32</span>
+                    <span class="stat-number">432</span>
                     <span class="stat-label">Auto-Resolved</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">4.2 mins</span>
+                    <span class="stat-label">Avg Response Time</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">12%</span>
+                    <span class="stat-label">False Positives</span>
                 </div>
             </div>
 
             <div class="alert-list">
-                <h3 style="color: #ffffff; margin-bottom: 20px;">Recent Alerts</h3>
-                
-                <div class="alert-item alert-high">
-                    <div class="alert-info">
-                        <div class="alert-title">Suspicious PowerShell Execution</div>
-                        <div class="alert-description">Base64 encoded command detected on WS-CLIENT-01</div>
-                    </div>
-                    <span class="alert-severity severity-high">High</span>
-                    <div class="triage-actions">
-                        <button class="action-btn btn-investigate">Investigate</button>
-                        <button class="action-btn btn-escalate">Escalate</button>
-                    </div>
-                </div>
-
-                <div class="alert-item alert-high">
-                    <div class="alert-info">
-                        <div class="alert-title">Multiple Failed Login Attempts</div>
-                        <div class="alert-description">Brute force attack detected from IP 192.168.1.100</div>
-                    </div>
-                    <span class="alert-severity severity-high">High</span>
-                    <div class="triage-actions">
-                        <button class="action-btn btn-investigate">Investigate</button>
-                        <button class="action-btn btn-escalate">Escalate</button>
-                    </div>
-                </div>
-
-                <div class="alert-item alert-medium">
-                    <div class="alert-info">
-                        <div class="alert-title">Unusual Network Traffic</div>
-                        <div class="alert-description">Large data transfer to external IP detected</div>
-                    </div>
-                    <span class="alert-severity severity-medium">Medium</span>
-                    <div class="triage-actions">
-                        <button class="action-btn btn-investigate">Investigate</button>
-                        <button class="action-btn btn-dismiss">Dismiss</button>
-                    </div>
-                </div>
-
-                <div class="alert-item alert-low">
-                    <div class="alert-info">
-                        <div class="alert-title">Software Update Available</div>
-                        <div class="alert-description">Security patch available for Windows Server 2019</div>
-                    </div>
-                    <span class="alert-severity severity-low">Low</span>
-                    <div class="triage-actions">
-                        <button class="action-btn btn-investigate">Review</button>
-                        <button class="action-btn btn-dismiss">Schedule</button>
-                    </div>
-                </div>
+                <h3>Live Security Alerts</h3>
+                <!-- Alerts will be dynamically loaded here -->
             </div>
         </div>
 
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-project-diagram"></i>
-                </div>
-                <h3 class="feature-title">Alert Correlation</h3>
-                <p class="feature-description">
-                    Intelligent correlation engine that analyzes relationships between security events, 
-                    reducing alert fatigue and identifying complex attack patterns.
-                </p>
+                <i class="fas fa-brain feature-icon"></i>
+                <h3 class="feature-title">AI-Powered Correlation</h3>
+                <p class="feature-description">Machine learning algorithms correlate security events across multiple data sources to identify complex attack patterns and reduce false positives.</p>
             </div>
-
             <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-sort-amount-down"></i>
-                </div>
-                <h3 class="feature-title">Automated Triage</h3>
-                <p class="feature-description">
-                    ML-powered severity scoring system that automatically prioritizes alerts based on 
-                    threat indicators, asset criticality, and business impact.
-                </p>
+                <i class="fas fa-tachometer-alt feature-icon"></i>
+                <h3 class="feature-title">Real-time Processing</h3>
+                <p class="feature-description">Process thousands of security events per second with sub-second latency for immediate threat detection and response.</p>
             </div>
-
             <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-robot"></i>
-                </div>
-                <h3 class="feature-title">Playbook Automation</h3>
-                <p class="feature-description">
-                    Predefined response playbooks that trigger automated containment actions, 
-                    evidence collection, and escalation procedures based on alert type.
-                </p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <h3 class="feature-title">Real-time Analytics</h3>
-                <p class="feature-description">
-                    Interactive dashboards providing SOC analysts with real-time visibility into 
-                    security posture, trending threats, and operational metrics.
-                </p>
+                <i class="fas fa-shield-alt feature-icon"></i>
+                <h3 class="feature-title">Automated Response</h3>
+                <p class="feature-description">Intelligent playbooks automatically execute containment actions, send notifications, and initiate incident response procedures.</p>
             </div>
         </div>
 
         <div class="tech-stack">
-            <h2 style="color: #e74c3c; text-align: center; margin-bottom: 20px;">
-                <i class="fas fa-cogs"></i> Technology Stack
-            </h2>
+            <h3><i class="fas fa-cogs"></i> Technology Stack</h3>
             <div class="tech-grid">
-                <div class="tech-item">
-                    <i class="fab fa-node-js" style="font-size: 2rem; color: #68a063; margin-bottom: 10px;"></i>
-                    <div>Node.js</div>
-                </div>
-                <div class="tech-item">
-                    <i class="fab fa-python" style="font-size: 2rem; color: #3776ab; margin-bottom: 10px;"></i>
-                    <div>Python</div>
-                </div>
-                <div class="tech-item">
-                    <i class="fas fa-database" style="font-size: 2rem; color: #13aa52; margin-bottom: 10px;"></i>
-                    <div>MongoDB</div>
-                </div>
-                <div class="tech-item">
-                    <i class="fas fa-database" style="font-size: 2rem; color: #003b57; margin-bottom: 10px;"></i>
-                    <div>SQLite</div>
-                </div>
-                <div class="tech-item">
-                    <i class="fas fa-wind" style="font-size: 2rem; color: #06b6d4; margin-bottom: 10px;"></i>
-                    <div>Tailwind CSS</div>
-                </div>
-                <div class="tech-item">
-                    <i class="fas fa-code" style="font-size: 2rem; color: #f1c40f; margin-bottom: 10px;"></i>
-                    <div>REST API</div>
-                </div>
+                <div class="tech-item">Python</div>
+                <div class="tech-item">Elasticsearch</div>
+                <div class="tech-item">Kibana</div>
+                <div class="tech-item">Logstash</div>
+                <div class="tech-item">Suricata</div>
+                <div class="tech-item">MITRE ATT&CK</div>
+                <div class="tech-item">Docker</div>
+                <div class="tech-item">Redis</div>
             </div>
         </div>
 
-        <div style="text-align: center;">
-            <a href="index.html" class="back-button">
-                <i class="fas fa-arrow-left"></i> Back to Portfolio
-            </a>
-        </div>
+        <a href="index.html" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to Portfolio
+        </a>
     </div>
 
     <script>
-        // Анимации за бутоните
-        document.querySelectorAll('.action-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const action = this.textContent;
-                const alertTitle = this.closest('.alert-item').querySelector('.alert-title').textContent;
-                
-                // Визуален feedback
-                this.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    this.style.transform = 'scale(1)';
-                }, 150);
-                
-                // Симулация на действие
-                console.log(`Action: ${action} on alert: ${alertTitle}`);
-                
-                // Можете да добавите реални AJAX заявки тук
-            });
-        });
+        // Реални данни за алертите
+        const realAlerts = [
+            {
+                id: 'ALT-2025-001',
+                title: 'Suspicious PowerShell Execution',
+                description: 'Invoke-Mimikatz detected on DESKTOP-7J8K9L2',
+                severity: 'Critical',
+                mitre: 'T1003.001 - LSASS Memory',
+                source: 'Windows Event Log 4688',
+                timestamp: '2025-01-10 14:23:45',
+                ip: '192.168.1.105',
+                user: 'admin@company.local',
+                status: 'active'
+            },
+            {
+                id: 'ALT-2025-002',
+                title: 'Brute Force Attack Detected',
+                description: 'Multiple failed RDP login attempts from 185.220.101.43',
+                severity: 'High',
+                mitre: 'T1110.001 - Password Guessing',
+                source: 'Windows Security Log 4625',
+                timestamp: '2025-01-10 14:18:12',
+                ip: '185.220.101.43',
+                user: 'administrator',
+                status: 'investigating'
+            },
+            {
+                id: 'ALT-2025-003',
+                title: 'Cobalt Strike Beacon Detection',
+                description: 'HTTP C2 communication pattern detected',
+                severity: 'Critical',
+                mitre: 'T1071.001 - Web Protocols',
+                source: 'Suricata IDS',
+                timestamp: '2025-01-10 14:15:33',
+                ip: '203.0.113.42',
+                user: 'SYSTEM',
+                status: 'escalated'
+            },
+            {
+                id: 'ALT-2025-004',
+                title: 'Lateral Movement Detected',
+                description: 'PsExec usage detected across multiple hosts',
+                severity: 'High',
+                mitre: 'T1570 - Lateral Tool Transfer',
+                source: 'Sysmon Event ID 1',
+                timestamp: '2025-01-10 14:12:18',
+                ip: '192.168.1.45',
+                user: 'service_account',
+                status: 'active'
+            }
+        ];
 
-        // Анимация за зареждане на статистиките
-        function animateCounters() {
-            const counters = document.querySelectorAll('.stat-number');
-            counters.forEach(counter => {
-                const target = parseInt(counter.textContent);
-                counter.textContent = '0';
-                
-                const increment = target / 50;
-                let current = 0;
-                
-                const timer = setInterval(() => {
-                    current += increment;
-                    if (current >= target) {
-                        counter.textContent = target;
-                        clearInterval(timer);
-                    } else {
-                        counter.textContent = Math.floor(current);
-                    }
-                }, 30);
+        // Създаване на частици
+        function createParticles() {
+            const particlesContainer = document.querySelector('.particles');
+            
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Зареждане на алертите
+        function loadAlerts() {
+            const alertList = document.querySelector('.alert-list');
+            
+            realAlerts.forEach(alert => {
+                const severityClass = alert.severity.toLowerCase();
+                const alertElement = document.createElement('div');
+                alertElement.className = `alert-item alert-${severityClass}`;
+                alertElement.innerHTML = `
+                    <div class="alert-info">
+                        <div class="alert-title">${alert.title}</div>
+                        <div class="alert-description">${alert.description}</div>
+                        <div class="alert-metadata">
+                            ID: ${alert.id} | MITRE: ${alert.mitre} | Source: ${alert.source}
+                        </div>
+                    </div>
+                    <span class="alert-severity severity-${severityClass}">${alert.severity}</span>
+                    <div class="triage-actions">
+                        <button class="action-btn btn-investigate" onclick="investigateAlert('${alert.id}')">
+                            <i class="fas fa-search"></i> Investigate
+                        </button>
+                        <button class="action-btn btn-escalate" onclick="escalateAlert('${alert.id}')">
+                            <i class="fas fa-exclamation-triangle"></i> Escalate
+                        </button>
+                        <button class="action-btn btn-dismiss" onclick="dismissAlert('${alert.id}')">
+                            <i class="fas fa-times"></i> Dismiss
+                        </button>
+                    </div>
+                `;
+                alertList.appendChild(alertElement);
             });
         }
 
-        // Стартиране на анимацията при зареждане
-        window.addEventListener('load', animateCounters);
+        // Функции за обработка на алертите
+        function investigateAlert(alertId) {
+            const alert = realAlerts.find(a => a.id === alertId);
+            if (alert) {
+                showAlertDetails(alert);
+            }
+        }
+
+        function escalateAlert(alertId) {
+            showNotification(`Alert ${alertId} escalated to Tier 2 SOC`, 'success');
+        }
+
+        function dismissAlert(alertId) {
+            const alertElement = document.querySelector(`[onclick="investigateAlert('${alertId}')"]`).closest('.alert-item');
+            alertElement.style.opacity = '0.5';
+            alertElement.style.transform = 'translateX(-100px)';
+            showNotification(`Alert ${alertId} dismissed`, 'info');
+        }
+
+        function showAlertDetails(alert) {
+            const modal = document.createElement('div');
+            modal.className = 'alert-modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Alert Details - ${alert.id}</h3>
+                        <button onclick="this.parentElement.parentElement.parentElement.remove()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>Title:</strong> ${alert.title}</p>
+                        <p><strong>Description:</strong> ${alert.description}</p>
+                        <p><strong>Severity:</strong> ${alert.severity}</p>
+                        <p><strong>MITRE Technique:</strong> ${alert.mitre}</p>
+                        <p><strong>Source:</strong> ${alert.source}</p>
+                        <p><strong>Timestamp:</strong> ${alert.timestamp}</p>
+                        <p><strong>Source IP:</strong> ${alert.ip}</p>
+                        <p><strong>User:</strong> ${alert.user}</p>
+                        <p><strong>Status:</strong> ${alert.status}</p>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#27ae60' : '#3498db'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 5px;
+                z-index: 1000;
+                font-weight: 600;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Създаване на частици при зареждане
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            loadAlerts();
+        });
     </script>
 </body>
 </html>
